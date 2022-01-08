@@ -89,21 +89,37 @@ else {
     content.body = "The early bird catches the worm, but the second mouse gets the cheese."
     content.categoryIdentifier = "alarm"
     content.userInfo = ["customData": "fizzbuzz"]
-    //content.sound = UNNotificationSound.default()
-
+    content.sound = .default
+    content.categoryIdentifier = "replyCategory"
+            
+    // notification action
+    let replyAction = UNNotificationAction(
+        identifier: "reply_action", title: "snova",
+        options: UNNotificationActionOptions.init(rawValue: 0)
+    )
+    
+    let actionCategory = UNNotificationCategory(
+    identifier: "replyCategory", actions: [replyAction], intentIdentifiers: [], options:
+        .customDismissAction
+    )
+    center.setNotificationCategories([actionCategory])
     var dateComponents = DateComponents()
-    dateComponents.hour = 21
-    dateComponents.minute = 59
-    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+    dateComponents.hour = 11
+    dateComponents.minute = 45
+    
+    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
 
     let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
     center.add(request)
 } else {
     // ios 9 
     let notification = UILocalNotification()
+    notification.alertAction = "OK"
     notification.fireDate = NSDate(timeIntervalSinceNow: 5) as Date
+    notification.userInfo = ["title": "Confirm", "UUID": UUID().uuidString, "CallIn": "CallInNotification"]
     notification.alertBody = "Hey you! Yeah you! Swipe to unlock!"
     notification.alertAction = "be awesome!"
+    notification.category = "CALLINNOTIFICATION"
     notification.soundName = UILocalNotificationDefaultSoundName
     UIApplication.shared.scheduleLocalNotification(notification)
 }
@@ -126,3 +142,5 @@ else {
     }
 
 }
+
+
