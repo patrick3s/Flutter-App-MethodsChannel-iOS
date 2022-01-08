@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future getBatteryLevel() async {
-    final arguments = {'name': 'Sara alves'};
+    final arguments = {'name': 'Sara alves', 'versao': '1'};
     final int newBatteryLevel =
         await methodsChannel.invokeMethod('getBatteryLevel', arguments);
 
